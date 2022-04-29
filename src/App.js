@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import Button from "./components/Button";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -12,9 +13,19 @@ function App() {
     { id: 3, text: "Food shopping", day: "Feb 5th", reminder: false },
   ]);
 
+  const isDuplicate = (newTask) => {
+    return tasks.some((task) => {
+      return (
+        task.text.toLowerCase() === newTask.text.toLowerCase() &&
+        task.day.toLowerCase() === newTask.day.toLowerCase()
+      );
+    });
+  };
+
   const addTask = (task) => {
     const id = Math.floor(Math.random() * 10000) + 1;
     const newTask = { id, ...task };
+
     setTasks([...tasks, newTask]);
   };
 
@@ -30,18 +41,28 @@ function App() {
     );
   };
 
+  const clearAll = () => {
+    setTasks([]);
+  };
+
   return (
     <div className="container">
       <Header
         onAdd={() => setShowAddTask(!showAddTask)}
         showAdd={showAddTask}
       />
-      {showAddTask && <AddTask onAdd={addTask} />}
+      {showAddTask && <AddTask isDuplicate={isDuplicate} onAdd={addTask} />}
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
       ) : (
         "No Tasks To Show"
       )}
+      <Button
+        btnClassName="clear-btn"
+        color="red"
+        text="Clear All"
+        onClick={clearAll}
+      />
     </div>
   );
 }

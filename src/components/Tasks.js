@@ -7,8 +7,8 @@ const Tasks = ({ tasks, onDelete, onToggle }) => {
         <Task
           key={task.id}
           task={task}
-          onDelete={onDelete}
-          onToggle={onToggle}
+          callDelete={onDelete}
+          callToggle={onToggle}
         />
       ))}
     </>

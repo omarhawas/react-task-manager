@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddTask = ({ onAdd }) => {
+const AddTask = ({ onAdd, isDuplicate }) => {
   const [text, setText] = useState("");
   const [day, setDay] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -10,6 +10,11 @@ const AddTask = ({ onAdd }) => {
 
     if (!text) {
       alert("Please add a task");
+      return;
+    }
+
+    if (isDuplicate({ text, day, reminder })) {
+      alert("Duplicate");
       return;
     }
 
